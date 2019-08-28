@@ -1,0 +1,27 @@
+{
+  "name": "@yojji/core",
+  "version": "0.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "jest --config=jest.json",
+    "lint": "tslint -p tsconfig.json",
+    "format": "prettier --write 'src/**/*.ts'",
+    "check": "npm run test && npm run lint"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^10.0.3",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.3"
+  }
+}
