@@ -11,7 +11,8 @@
   "keywords": [],
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest --config=jest.json",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write 'src/**/*.ts'",
     "check": "npm run test && npm run lint"
@@ -24,5 +25,19 @@
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "typescript": "^3.5.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+          "ts",
+          "tsx",
+          "js",
+          "json"
+      ],
+      "transform": {
+          "^.+\\.tsx?$": "ts-jest"
+      },
+      "testRegex": "/src/.*\\.(test|spec).(ts|tsx|js)$",
+      "collectCoverageFrom" : ["src/**/*.{js,jsx,tsx,ts}", "!**/node_modules/**", "!**/vendor/**"],
+      "coverageReporters": ["text"]
   }
 }
