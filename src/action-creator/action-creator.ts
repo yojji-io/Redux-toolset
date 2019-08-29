@@ -3,7 +3,7 @@ import {
     ActionStatuses,
 } from '../constants';
 
-interface IActionObject {
+export interface IActionObject {
     type: string;
     payload?: any;
     meta?: any;
@@ -14,7 +14,7 @@ interface IOptions {
     payloadCreator?: (payload: any) => any;
 }
 
-interface IAction {
+export interface IAction {
     (payload?: any): IActionObject;
 
     success(payload?: any): IActionObject;

@@ -37,7 +37,7 @@
           "^.+\\.tsx?$": "ts-jest"
       },
       "testRegex": "/src/.*\\.(test|spec).(ts|tsx|js)$",
-      "collectCoverageFrom" : ["src/**/*.{js,jsx,tsx,ts}", "!**/node_modules/**", "!**/vendor/**"],
+      "collectCoverageFrom" : ["src/**/*.{js,jsx,tsx,ts}", "!**/node_modules/**", "!**/vendor/**", "!src/index.ts"],
       "coverageReporters": ["text"]
   }
 }
