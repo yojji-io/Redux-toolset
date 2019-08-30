@@ -18,6 +18,9 @@ const ACTION = `${NAMESPACE}${DEFAULT_NAMESPACE_DELIMITER}${TYPE}`;
 
 const action = createAction(TYPE);
 
+const createNamespacedAction = actionNamespaceCreator(NAMESPACE);
+const namespacedAction = createNamespacedAction(TYPE);
+
 interface IInitialState {
     a: number;
 }
@@ -51,6 +54,29 @@ describe('Simple reducer', () => {
 
         test('Usage with different action', () => {
             const reducer = createSimpleReducer(action, upReducer, initialState);
+            expect(
+                reducer(state, { type: 'ANOTHER_ACTION' }),
+            ).toEqual(state);
+        });
+    });
+
+    describe('Handle namespaced action', () => {
+        test('Usage with action', () => {
+            const reducer = createSimpleReducer(namespacedAction, upReducer, state);
+            expect(
+                reducer(state, namespacedAction()),
+            ).toHaveProperty('a', 6);
+        });
+
+        test('Usage without state provided (redux initial action)', () => {
+            const reducer = createSimpleReducer(namespacedAction, upReducer, initialState);
+            expect(
+                reducer(undefined, { type: '@@INIT' }),
+            ).toEqual(initialState);
+        });
+
+        test('Usage with different action', () => {
+            const reducer = createSimpleReducer(namespacedAction, upReducer, initialState);
             expect(
                 reducer(state, { type: 'ANOTHER_ACTION' }),
             ).toEqual(state);
