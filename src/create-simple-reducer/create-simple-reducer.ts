@@ -1,24 +1,18 @@
 import {
-    DEFAULT_NAMESPACE_DELIMITER,
-} from '../constants';
-
-import {
     IAction,
     IActionObject,
 } from '../action-creator';
 
-type TReducer = (state: any, action: IActionObject) => any;
+export type TReducer<State = any> = (state: State, action: IActionObject) => State;
 
-type TCreateSimpleReducer = <State = any>(actionToHandle: IAction, reducer: TReducer, initialState: State) =>
+type TCreateSimpleReducer = <State = any>(actionToHandle: IAction | string, reducer: TReducer<State>, initialState: State) =>
     (state: State, action: IActionObject) => any;
 
 export const createSimpleReducer: TCreateSimpleReducer = (actionToHandle, reducer, initialState) => {
-    const types = actionToHandle.toString().split(DEFAULT_NAMESPACE_DELIMITER);
-
     return (state = initialState, action) => {
         const { type: actionType } = action;
 
-        if (!types.includes(actionType) || !actionType) {
+        if (actionToHandle.toString() !== actionType || !actionType) {
             return state;
         }
 

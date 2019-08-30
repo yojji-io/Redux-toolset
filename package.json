@@ -28,16 +28,26 @@
   },
   "jest": {
     "moduleFileExtensions": [
-          "ts",
-          "tsx",
-          "js",
-          "json"
-      ],
-      "transform": {
-          "^.+\\.tsx?$": "ts-jest"
-      },
-      "testRegex": "/src/.*\\.(test|spec).(ts|tsx|js)$",
-      "collectCoverageFrom" : ["src/**/*.{js,jsx,tsx,ts}", "!**/node_modules/**", "!**/vendor/**", "!src/index.ts"],
-      "coverageReporters": ["text"]
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "/src/.*\\.(test|spec).(ts|tsx|js)$",
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,tsx,ts}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!src/index.ts"
+    ],
+    "coverageReporters": [
+      "text"
+    ]
+  },
+  "dependencies": {
+    "reduce-reducers": "^1.0.4"
   }
 }

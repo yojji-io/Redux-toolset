@@ -5,3 +5,5 @@ export enum ActionStatuses {
     failure = 'failure',
     cancelled = 'cancelled',
 }
+
+export type TActionsToHandle = 'DEFAULT' | 'SUCCESS' | 'FAILURE' | 'CANCELLED';
