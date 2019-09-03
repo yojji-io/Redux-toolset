@@ -15,7 +15,7 @@ import { TActionsToHandle } from '../constants';
 type TReducersWrapper = (actions: Record<TActionsToHandle, string>) => Record<string, TReducer>;
 
 type TCreateReducer = <State = any>(actionToHandle: IAction, reducersWrapper: TReducersWrapper, initialState: State) =>
-    (state: State, action: IActionObject) => any;
+    (state: State, action: IActionObject) => State;
 
 export const createReducer: TCreateReducer = (actionToHandle, reducersWrapper, initialState) => {
     const DEFAULT = actionToHandle.toString();
