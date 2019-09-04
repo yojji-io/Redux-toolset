@@ -18,10 +18,12 @@
     "check": "npm run test && npm run lint"
   },
   "devDependencies": {
+    "@redux-saga/testing-utils": "^1.0.5",
     "@types/jest": "^24.0.18",
     "@types/node": "^10.0.3",
     "husky": "^3.0.4",
     "jest": "^24.9.0",
+    "redux-saga-test-plan": "^4.0.0-beta.4",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "typescript": "^3.5.3"
@@ -48,6 +50,7 @@
     ]
   },
   "dependencies": {
-    "reduce-reducers": "^1.0.4"
+    "reduce-reducers": "^1.0.4",
+    "redux-saga": "^1.0.5"
   }
 }

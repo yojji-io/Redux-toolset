@@ -21,13 +21,13 @@ export const createReducer: TCreateReducer = (actionToHandle, reducersWrapper, i
     const DEFAULT = actionToHandle.toString();
     const SUCCESS = actionToHandle.success.toString();
     const FAILURE = actionToHandle.failure.toString();
-    const CANCELLED = actionToHandle.cancelled.toString();
+    const CANCEL = actionToHandle.cancel.toString();
 
     const reducers = reducersWrapper({
         DEFAULT,
         SUCCESS,
         FAILURE,
-        CANCELLED,
+        CANCEL,
     });
 
     const simpleReducers = Object.entries(reducers).map(([type, statusReducer]) =>

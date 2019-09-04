@@ -3,7 +3,7 @@ export const DEFAULT_NAMESPACE_DELIMITER = '/';
 export enum ActionStatuses {
     success = 'success',
     failure = 'failure',
-    cancelled = 'cancelled',
+    cancel = 'cancel',
 }
 
-export type TActionsToHandle = 'DEFAULT' | 'SUCCESS' | 'FAILURE' | 'CANCELLED';
+export type TActionsToHandle = 'DEFAULT' | 'SUCCESS' | 'FAILURE' | 'CANCEL';
