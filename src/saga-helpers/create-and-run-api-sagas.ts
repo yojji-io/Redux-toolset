@@ -1,5 +1,5 @@
 import { call, cancelled, put, take, fork, race, spawn } from 'redux-saga/effects';
-import { Task, SagaIterator } from 'redux-saga';
+import { SagaIterator } from 'redux-saga';
 
 import {
     IAction,
