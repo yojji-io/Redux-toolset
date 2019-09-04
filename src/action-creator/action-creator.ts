@@ -21,7 +21,7 @@ export interface IAction {
 
     failure(payload?: any): IActionObject;
 
-    cancelled(payload?: any): IActionObject;
+    cancel(payload?: any): IActionObject;
 
     toString(): string;
 }

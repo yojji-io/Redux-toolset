@@ -12,12 +12,12 @@ const PAYLOAD_MODIFIED = 'PAYLOAD_MODIFIED';
 
 const SUCCESS_ACTION = `${TYPE}_${ActionStatuses.success.toUpperCase()}`;
 const FAILURE_ACTION = `${TYPE}_${ActionStatuses.failure.toUpperCase()}`;
-const CANCELLED_ACTION = `${TYPE}_${ActionStatuses.cancelled.toUpperCase()}`;
+const CANCEL_ACTION = `${TYPE}_${ActionStatuses.cancel.toUpperCase()}`;
 
 const ACTION_STATUSES_MAP = {
     [ActionStatuses.success]: SUCCESS_ACTION,
     [ActionStatuses.failure]: FAILURE_ACTION,
-    [ActionStatuses.cancelled]: CANCELLED_ACTION,
+    [ActionStatuses.cancel]: CANCEL_ACTION,
 };
 
 const payloadCreator = (payload: string) => {

@@ -21,26 +21,26 @@ interface IInitialState {
     default: boolean;
     success: boolean;
     failure: boolean;
-    cancelled: boolean;
+    cancel: boolean;
 }
 
 const initialState: IInitialState = {
     default: false,
     success: false,
     failure: false,
-    cancelled: false,
+    cancel: false,
 };
 
 const reducerCreator = (action: IAction) => createReducer(action, ({
     DEFAULT,
     SUCCESS,
     FAILURE,
-    CANCELLED,
+    CANCEL,
 }) => ({
     [DEFAULT]: (state: IInitialState, action: IActionObject) => ({ ...state, default: action.payload }),
     [SUCCESS]: (state: IInitialState, action: IActionObject) => ({ ...state, success: action.payload }),
     [FAILURE]: (state: IInitialState, action: IActionObject) => ({ ...state, failure: action.payload }),
-    [CANCELLED]: (state: IInitialState, action: IActionObject) => ({ ...state, cancelled: action.payload }),
+    [CANCEL]: (state: IInitialState, action: IActionObject) => ({ ...state, cancel: action.payload }),
 }), initialState);
 
 describe('Reducer', () => {
@@ -66,10 +66,10 @@ describe('Reducer', () => {
                 ).toHaveProperty('failure', true);
             });
 
-            test('Cancelled action', () => {
+            test('cancel action', () => {
                 expect(
-                    reducer(initialState, action.cancelled(true)),
-                ).toHaveProperty('cancelled', true);
+                    reducer(initialState, action.cancel(true)),
+                ).toHaveProperty('cancel', true);
             });
         });
 
@@ -112,10 +112,10 @@ describe('Reducer', () => {
                 ).toHaveProperty('failure', true);
             });
 
-            test('Cancelled action', () => {
+            test('Cancel action', () => {
                 expect(
-                    reducer(initialState, namespacedAction.cancelled(true)),
-                ).toHaveProperty('cancelled', true);
+                    reducer(initialState, namespacedAction.cancel(true)),
+                ).toHaveProperty('cancel', true);
             });
         });
 
