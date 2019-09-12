@@ -88,6 +88,7 @@ If `createAction` function was returned by `actionNamespaceCreator`, options pro
     // action.success() === 'TYPE_SUCCESS'
     // action.failure() === 'TYPE_FAILURE'
     // action.cancel() === 'TYPE_CANCEL'
+    // action.request() === 'TYPE_REQUEST'
 ```
 
 Using with options:
@@ -281,7 +282,7 @@ Helper to create worker saga that handles api calls.
 
 `@param {IApi} apiOptions` - Object
 
-`@param {() => Promise} apiOptions.api` - Function that will be called by `call`
+`@param {(data?: any) => Promise} apiOptions.api` - Function that will be called by `call`
 
 `@param {IAction} apiOptions.action` - Action which statuses will be dispatched on resolve / reject Promise: `success` - on resolve, `failure` - on reject and `cancel` - on saga `cancelled()`
 
