@@ -23,6 +23,8 @@ export interface IAction {
 
     cancel(payload?: any): IActionObject;
 
+    request(payload?: any): IActionObject;
+
     toString(): string;
 }
 

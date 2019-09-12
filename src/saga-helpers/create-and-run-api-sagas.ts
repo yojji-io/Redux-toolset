@@ -1,16 +1,15 @@
 import { call, cancelled, put, take, fork, race, spawn } from 'redux-saga/effects';
-import { SagaIterator } from 'redux-saga';
 
 import {
     IAction,
 } from '../action-creator';
 
 interface IApi {
-    api: () => Promise<any>;
+    api: (data?: any) => any;
     action: IAction;
 }
 
-export function * createAndRunApiSagas(apiList: IApi[]): SagaIterator {
+export function * createAndRunApiSagas(apiList: IApi[]) {
     const workers: Record<string, Generator> = apiList.reduce((acc, api) => {
         const worker = createWorker(api);
         return { ...acc, [api.action.toString()]: worker };
@@ -28,9 +27,9 @@ export function * createWatcher({ api, action }: IApi) {
 
     function * watcher() {
         while (true) {
-            yield take(action);
+            const { payload } = yield take(action);
             yield race({
-                _: call(worker),
+                _: call(worker, payload),
                 cancel: take(action.cancel),
             });
         }
@@ -39,9 +38,9 @@ export function * createWatcher({ api, action }: IApi) {
     yield fork(watcher);
 }
 
-export const createWorker = ({ api, action }: IApi) => function *() {
+export const createWorker = ({ api, action }: IApi) => function *(data?: any) {
         try {
-            const response = yield call(api);
+            const response = yield call(api, data);
             yield put(action.success(response));
         } catch (err) {
             yield put(action.failure(err));
