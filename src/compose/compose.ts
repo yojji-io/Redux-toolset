@@ -1,12 +1,11 @@
 import reduceReducers from 'reduce-reducers';
-
-import { TReducer } from '../create-simple-reducer';
+import { Reducer } from 'redux';
 
 import { IActionObject } from '../action-creator';
 
 type TCompose = <State = unknown>(
   initialState: State,
-  ...reducers: TReducer[]
+  ...reducers: Reducer[]
 ) => (state: State | undefined, action: IActionObject) => State;
 
 export const compose: TCompose = (initialState, ...reducers) => {
