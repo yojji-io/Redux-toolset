@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "text": "Some todo",
+      "complete": false,
+      "id": 1
+    },
+    {
+      "text": "Another todo",
+      "complete": true,
+      "id": 2
+    }
+  ]
+}

@@ -9,7 +9,7 @@ import {
 } from '../action-creator';
 
 type TCompose = <State = any>(initialState: State, ...reducers: TReducer[]) =>
-    (state: State, action: IActionObject) => State;
+    (state: State | undefined, action: IActionObject) => State;
 
 export const compose: TCompose = (initialState, ...reducers) => {
     const reducer = reduceReducers(initialState, ...reducers);

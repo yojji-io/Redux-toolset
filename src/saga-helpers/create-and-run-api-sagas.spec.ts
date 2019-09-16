@@ -33,7 +33,7 @@ const reducer = createReducer(action, ({ SUCCESS, DEFAULT, FAILURE, CANCEL }) =>
 describe('Test saga helpers', () => {
     describe('Test createWorker', () => {
         test('Worker should call api and dispatch action with success to reducer', async () => {
-            const api = () => new Promise(resolve => resolve());
+            const api = () => new Promise(resolve => resolve(true));
 
             const worker = createWorker({ api, action });
 
@@ -49,7 +49,7 @@ describe('Test saga helpers', () => {
         });
 
         test('Worker should dispatch action with failure to reducer', async () => {
-            const api = () => new Promise(resolve => resolve());
+            const api = () => new Promise((resolve, reject) => reject(true));
 
             const worker = createWorker({ api, action });
 
@@ -141,7 +141,7 @@ describe('Test saga helpers', () => {
         });
 
         test('Watcher should rerun worker', async () => {
-            const api = () => new Promise(resolve => resolve());
+            const api = () => new Promise(resolve => resolve(true));
 
             const saga = expectSaga(createAndRunApiSagas, [{ api, action }])
                 .provide([
