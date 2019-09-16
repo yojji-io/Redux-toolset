@@ -1,21 +1,27 @@
-import {
-    IAction,
-    IActionObject,
-} from '../action-creator';
+import { Reducer } from 'redux';
 
-export type TReducer<State = any> = (state: State, action: IActionObject) => State;
+import { IAction, IActionObject } from '../action-creator';
 
-type TCreateSimpleReducer = <State = any>(actionToHandle: IAction | string, reducer: TReducer<State>, initialState: State) =>
-    (state: State, action: IActionObject) => State;
+type TCreateSimpleReducer = <
+  State = unknown,
+  Payload = unknown,
+  Meta = unknown
+>(
+  actionToHandle: IAction | string,
+  reducer: Reducer<State, IActionObject<Payload, Meta>>,
+  initialState: State
+) => (state: State, action: IActionObject<Payload, Meta>) => State;
 
-export const createSimpleReducer: TCreateSimpleReducer = (actionToHandle, reducer, initialState) => {
-    return (state = initialState, action) => {
-        const { type: actionType } = action;
+export const createSimpleReducer: TCreateSimpleReducer = (
+  actionToHandle,
+  reducer,
+  initialState
+) => (state = initialState, action) => {
+  const { type: actionType } = action;
 
-        if (actionToHandle.toString() !== actionType || !actionType) {
-            return state;
-        }
+  if (actionToHandle.toString() !== actionType || !actionType) {
+    return state;
+  }
 
-        return reducer(state, action);
-    };
+  return reducer(state, action);
 };

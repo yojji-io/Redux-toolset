@@ -1,21 +1,20 @@
 import reduceReducers from 'reduce-reducers';
 
-import {
-    createSimpleReducer,
-    TReducer,
-} from '../create-simple-reducer';
+import { createSimpleReducer, TReducer } from '../create-simple-reducer';
 
-import {
-    IAction,
-    IActionObject,
-} from '../action-creator';
+import { IAction, IActionObject } from '../action-creator';
 
 import { TActionsToHandle } from '../constants';
 
-type TReducersWrapper = (actions: Record<TActionsToHandle, string>) => Record<string, TReducer>;
+type TReducersWrapper = (
+  actions: Record<TActionsToHandle, string>
+) => Record<string, TReducer>;
 
-type TCreateReducer = <State = any>(actionToHandle: IAction, reducersWrapper: TReducersWrapper, initialState: State) =>
-    (state: State, action: IActionObject) => State;
+type TCreateReducer = <State = any>(
+  actionToHandle: IAction,
+  reducersWrapper: TReducersWrapper,
+  initialState: State
+) => (state: State, action: IActionObject) => State;
 
 export const createReducer: TCreateReducer = (actionToHandle, reducersWrapper, initialState) => {
     const DEFAULT = actionToHandle.toString();
@@ -37,5 +36,5 @@ export const createReducer: TCreateReducer = (actionToHandle, reducersWrapper, i
 
     const reducer = reduceReducers(initialState, ...simpleReducers);
 
-    return (state = initialState, action) => reducer(state, action);
+  return (state = initialState, action) => reducer(state, action);
 };
