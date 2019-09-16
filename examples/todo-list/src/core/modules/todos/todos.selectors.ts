@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-import { IStore } from '../../root-reducer';
+import { TStore } from '../../root-reducer';
 
-const selectTodos = (state: IStore) => state.todos;
+const selectTodos = (state: TStore) => state.todos;
 
 export const selectIsLoading = createSelector(selectTodos, state => state.isLoading);
 export const selectTodosList = createSelector(selectTodos, state => [...state.list].reverse());

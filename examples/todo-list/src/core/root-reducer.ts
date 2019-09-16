@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 
 import todos, { IInitialState as ITodos} from './modules/todos/todos.reducer';
 
-export default combineReducers({
+const store = combineReducers({
     todos,
 });
 
-export interface IStore {
-    todos: ITodos;
-}
+export default store;
+
+export type TStore = ReturnType<typeof store>;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ITodo } from '../core/modules/todos/todos.reducer';
 
 const api = axios.create({
-    baseURL: 'http://192.168.1.125:3004',
+    baseURL: 'http://localhost:3004',
 });
 
 export const getTodos = () => api.get('posts/');
