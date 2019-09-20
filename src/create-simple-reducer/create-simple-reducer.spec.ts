@@ -77,17 +77,3 @@ describe('Simple reducer', () => {
     });
   });
 });
-
-// const action2 = createAction<{ userId: number }>('ACTION');
-//
-// const reducer = createSimpleReducer<{ user: { id: number } }, { userId: number }, {isAdmin: boolean}>(action2, (state, action) =>
-//
-// }, { user: { id: 0 } })
-
-// const action2 = createAction<{ userId: number }>('ACTION');
-// action2().payload.userId;
-//
-// const reducer = createSimpleReducer<{ user: { id: number }}>(action2, (state, action) => {
-//   const id = state.user.id;
-//   const userId = action.payload.
-// }, { user: { id : 0 }})
