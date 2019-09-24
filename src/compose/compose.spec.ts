@@ -12,32 +12,6 @@ const TYPE_B = 'TYPE_B';
 const actionA = createAction(TYPE_A);
 const actionB = createAction(TYPE_B);
 
-const reducerA = (state: IInitialState, action: IActionObject) => ({
-  ...state,
-  a: state.a + action.payload,
-});
-
-const reducerB = (state: IInitialState, action: IActionObject) => ({
-  ...state,
-  b: state.b + action.payload,
-});
-
-const reducerCreator = (action: IAction) =>
-  createReducer<IInitialState>(
-    action,
-    ({ DEFAULT, SUCCESS }) => ({
-      [DEFAULT]: (state: IInitialState, action: IActionObject) => ({
-        ...state,
-        a: state.a + action.payload,
-      }),
-      [SUCCESS]: (state: IInitialState, action: IActionObject) => ({
-        ...state,
-        b: state.b + action.payload,
-      }),
-    }),
-    initialState
-  );
-
 interface IInitialState {
   a: number;
   b: number;
@@ -47,6 +21,32 @@ const initialState: IInitialState = {
   a: 0,
   b: 0,
 };
+
+const reducerA = (state: IInitialState, action: IActionObject<number>) => ({
+  ...state,
+  a: state.a + action.payload,
+});
+
+const reducerB = (state: IInitialState, action: IActionObject<number>) => ({
+  ...state,
+  b: state.b + action.payload,
+});
+
+const reducerCreator = (action: IAction) =>
+  createReducer<IInitialState>(
+    action,
+    ({ DEFAULT, SUCCESS }) => ({
+      [DEFAULT]: (state: IInitialState, action: IActionObject<number>) => ({
+        ...state,
+        a: state.a + action.payload,
+      }),
+      [SUCCESS]: (state: IInitialState, action: IActionObject<number>) => ({
+        ...state,
+        b: state.b + action.payload,
+      }),
+    }),
+    initialState
+  );
 
 describe('Compose', () => {
   test('Handle simple reducers', () => {

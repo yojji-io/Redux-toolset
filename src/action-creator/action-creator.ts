@@ -8,87 +8,119 @@ export interface IActionObject<P = unknown, M = unknown> extends Action {
   meta?: M;
 }
 
-interface IOptions<P = unknown, R = unknown> {
+interface IOptions {
   meta?: unknown;
-  payloadCreator?: (payload: P) => R;
 }
 
+type TMeta<
+  Options extends IOptions,
+  ActionCreatorOptions extends IOptions
+> = Options extends undefined
+  ? ActionCreatorOptions extends IOptions
+    ? ActionCreatorOptions['meta']
+    : undefined
+  : Options['meta'];
+
 export interface IAction<
-  P = unknown,
-  S = unknown,
-  F = unknown,
-  C = unknown,
-  R = unknown
-> extends ActionCreator<P> {
-  (payload?: P): IActionObject<P>;
+  StatusesPayload extends IStatuses = IStatuses,
+  Options extends IOptions = {},
+  ActionCreatorOptions extends IOptions = {}
+> extends ActionCreator<StatusesPayload['default']> {
+  (payload?: StatusesPayload['default']): IActionObject<
+    StatusesPayload['default'],
+    TMeta<Options, ActionCreatorOptions>
+  >;
 
-  success(payload?: S): IActionObject<S>;
+  success(
+    payload?: StatusesPayload['success']
+  ): IActionObject<
+    StatusesPayload['success'],
+    TMeta<Options, ActionCreatorOptions>
+  >;
 
-  failure(payload?: F): IActionObject<F>;
+  failure(
+    payload?: StatusesPayload['failure']
+  ): IActionObject<
+    StatusesPayload['failure'],
+    TMeta<Options, ActionCreatorOptions>
+  >;
 
-  cancel(payload?: C): IActionObject<C>;
+  cancel(
+    payload?: StatusesPayload['cancel']
+  ): IActionObject<
+    StatusesPayload['cancel'],
+    TMeta<Options, ActionCreatorOptions>
+  >;
 
-  request(payload?: R): IActionObject;
+  request(
+    payload?: StatusesPayload['request']
+  ): IActionObject<
+    StatusesPayload['request'],
+    TMeta<Options, ActionCreatorOptions>
+  >;
 
   toString(): string;
 }
 
-type TCreateAction = (
-  type: string,
-  actionOptions?: IOptions,
-  actionCreatorOptions?: IOptions
-) => IAction;
-
-type TActionNamespaceCreator = (
-  namespace: string,
-  actionCreatorOptions?: IOptions
-) => TCreateAction;
+interface IStatuses {
+  default?: unknown;
+  success?: unknown;
+  failure?: unknown;
+  cancel?: unknown;
+  request?: unknown;
+}
 
 export const createAction = <
-  P = unknown,
-  S = unknown,
-  F = unknown,
-  C = unknown,
-  R = unknown
+  StatusesPayload extends IStatuses = IStatuses,
+  ActionOptions extends IOptions = undefined,
+  ActionCreatorOptions extends IOptions = undefined
 >(
   type: string,
-  actionOptions: IOptions = {},
-  actionCreatorOptions: IOptions = {}
-): IAction<P, S, F, C, R> => {
-  const actionCreator = (actionType: string) => (
-      actionPayload?: P | S | F | C | R
-    ): IActionObject => {
-      const action: IActionObject = {
-        type: actionType,
-      };
+  actionOptions?: ActionOptions,
+  actionCreatorOptions?: ActionCreatorOptions
+): IAction<StatusesPayload, ActionOptions, ActionCreatorOptions> => {
+  type Action = IAction<StatusesPayload, ActionOptions, ActionCreatorOptions>;
 
-      let payload: unknown = actionPayload;
+  const actionCreator = <Payload = unknown>(actionType: string) => (
+    actionPayload?: Payload
+  ): IActionObject<Payload, TMeta<ActionOptions, ActionCreatorOptions>> => {
+    const action: IActionObject<
+      Payload,
+      TMeta<ActionOptions, ActionCreatorOptions>
+    > = {
+      type: actionType,
+    };
 
-      if (actionOptions.payloadCreator) {
-        payload = actionOptions.payloadCreator(actionPayload);
-      } else if (actionCreatorOptions.payloadCreator) {
-        payload = actionCreatorOptions.payloadCreator(actionPayload);
-      }
+    if (actionPayload) {
+      action.payload = actionPayload;
+    }
 
-      if (payload) {
-        action.payload = payload;
-      }
+    if (actionOptions && actionOptions.meta) {
+      action.meta = actionOptions.meta as TMeta<
+        ActionOptions,
+        ActionCreatorOptions
+      >;
+    } else if (actionCreatorOptions && actionCreatorOptions.meta) {
+      action.meta = actionCreatorOptions.meta as TMeta<
+        ActionOptions,
+        ActionCreatorOptions
+      >;
+    }
 
-      if (actionOptions.meta) {
-        action.meta = actionOptions.meta;
-      } else if (actionCreatorOptions.meta) {
-        action.meta = actionCreatorOptions.meta;
-      }
+    return action;
+  };
+  const defaultActionCreator = actionCreator<StatusesPayload['default']>(
+    type
+  ) as Action;
 
-      return action;
-    },
-    defaultActionCreator = actionCreator(type);
   defaultActionCreator.toString = (): string => type;
 
-  Object.values(ActionStatuses).reduce(
-    (actionCreatorToSetStatusActions, status) => {
+  Object.values(ActionStatuses).reduce<Action>(
+    (actionCreatorToSetStatusActions, status: ActionStatuses) => {
       const statusType = `${type}_${status.toUpperCase()}`;
-      actionCreatorToSetStatusActions[status] = actionCreator(statusType);
+      actionCreatorToSetStatusActions[status] = actionCreator<
+        StatusesPayload[ActionStatuses]
+      >(statusType);
       actionCreatorToSetStatusActions[status].toString = (): string =>
         statusType;
       return actionCreatorToSetStatusActions;
@@ -96,24 +128,25 @@ export const createAction = <
     defaultActionCreator
   );
 
-  return defaultActionCreator as IAction<P, S, F, C>;
+  return defaultActionCreator;
 };
 
-export const actionNamespaceCreator: TActionNamespaceCreator = (
-  namespace,
-  actionCreatorOptions = {}
-) => <P, S, F, C, R>(type, actionOptions = {}): IAction => {
+export const actionNamespaceCreator = (
+  namespace: string,
+  actionCreatorOptions?: IOptions
+) => <
+  StatusesPayload extends IStatuses = IStatuses,
+  ActionOptions extends IOptions = undefined,
+  ActionCreatorOptions extends IOptions = undefined
+>(
+  type: string,
+  actionOptions?: ActionOptions
+): IAction<StatusesPayload, ActionOptions, ActionCreatorOptions> => {
   if (!namespace) {
     throw new Error("You didn't provide any namespace");
   }
 
   const actionType = `${namespace}${DEFAULT_NAMESPACE_DELIMITER}${type}`;
 
-  const action = createAction<P, S, F, C, R>(
-    actionType,
-    actionOptions,
-    actionCreatorOptions
-  );
-
-  return action;
+  return createAction(actionType, actionOptions, actionCreatorOptions);
 };
