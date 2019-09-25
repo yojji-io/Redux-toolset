@@ -39,7 +39,9 @@
     "redux-saga-test-plan": "^4.0.0-beta.4",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "redux": "4.x",
+    "redux-saga": "1.x"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -65,8 +67,10 @@
   "dependencies": {
     "lodash.isplainobject": "^4.0.6",
     "reduce-reducers": "^1.0.4",
-    "redux": "^4.0.4",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-saga": "^1.0.5"
+    "redux-devtools-extension": "^2.13.8"
+  },
+  "peerDependencies": {
+    "redux": "4.x",
+    "redux-saga": "1.x"
   }
 }
