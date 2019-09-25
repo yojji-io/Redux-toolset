@@ -3,17 +3,23 @@ import { Reducer } from 'redux';
 
 import { createSimpleReducer } from '../create-simple-reducer';
 
-import { IAction, IActionObject } from '../action-creator';
+import { IAction, IActionObject, IStatuses } from '../action-creator';
 
 import { TActionsToHandle } from '../constants';
 
-type TReducersWrapper = (
+type TReducersWrapper<State, StatusesPayload> = (
   actions: Record<TActionsToHandle, string>
-) => Record<string, Reducer>;
+) => Record<
+  TActionsToHandle,
+  Reducer<State, IActionObject<StatusesPayload[keyof StatusesPayload]>>
+>;
 
-type TCreateReducer = <State = any>(
+type TCreateReducer = <
+  State = unknown,
+  StatusesPayload extends IStatuses = IStatuses
+>(
   actionToHandle: IAction,
-  reducersWrapper: TReducersWrapper,
+  reducersWrapper: TReducersWrapper<State, StatusesPayload>,
   initialState: State
 ) => (state: State, action: IActionObject) => State;
 

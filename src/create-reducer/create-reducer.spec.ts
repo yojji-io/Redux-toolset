@@ -30,10 +30,15 @@ const initialState: IInitialState = {
 };
 
 const reducerCreator = (action: IAction) =>
-  createReducer(
+  createReducer<IInitialState, {
+    default: boolean;
+    success: boolean;
+    failure: boolean;
+    cancel: boolean;
+  }>(
     action,
     ({ DEFAULT, SUCCESS, FAILURE, CANCEL }) => ({
-      [DEFAULT]: (state: IInitialState, action: IActionObject) => ({
+      [DEFAULT]: (state, action) => ({
         ...state,
         default: action.payload,
       }),
