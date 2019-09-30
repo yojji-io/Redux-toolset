@@ -2,7 +2,7 @@
   "name": "@yojji/core",
   "version": "0.0.0",
   "description": "",
-  "main": "build/index.js",
+  "main": "build/index.r.min.js",
   "types": "build/index.d.ts",
   "files": [
     "build/src"
@@ -10,7 +10,8 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "lint": "eslint -c eslintrc.json src/**/*.ts",
@@ -36,12 +37,19 @@
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "prettier-eslint": "^9.0.0",
+    "redux": "4.x",
+    "redux-saga": "1.x",
     "redux-saga-test-plan": "^4.0.0-beta.4",
+    "rollup": "^1.22.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-size-snapshot": "^0.10.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "rollup-plugin-visualizer": "^2.6.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
-    "typescript": "^3.5.3",
-    "redux": "4.x",
-    "redux-saga": "1.x"
+    "typescript": "^3.5.3"
   },
   "jest": {
     "moduleFileExtensions": [

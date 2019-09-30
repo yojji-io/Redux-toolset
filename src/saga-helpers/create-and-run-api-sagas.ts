@@ -1,5 +1,3 @@
-import { SagaIterator } from 'redux-saga';
-
 import {
   call,
   cancelled,
@@ -13,7 +11,7 @@ import {
 import { IAction } from '../action-creator';
 
 interface IApi {
-  api: (data?: unknown) => unknown;
+  api: (data?: any) => any;
   action: IAction;
 }
 
@@ -47,7 +45,7 @@ export function* createWatcher({ api, action }: IApi) {
   yield fork(watcher);
 }
 
-export function* createAndRunApiSagas(apiList: IApi[]): SagaIterator {
+export function* createAndRunApiSagas(apiList: IApi[]) {
   const workers: Record<string, Generator> = apiList.reduce((acc, api) => {
     const worker = createWorker(api);
     return { ...acc, [api.action.toString()]: worker };
