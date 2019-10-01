@@ -62,7 +62,7 @@ export interface IAction<
   toString(): string;
 }
 
-interface IStatuses {
+export interface IStatuses {
   default?: unknown;
   success?: unknown;
   failure?: unknown;

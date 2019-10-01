@@ -2,34 +2,49 @@ import { Reducer } from 'redux';
 
 import { IAction, IActionObject } from '../action-creator';
 
-export function createSimpleReducer<
-  State = unknown,
-  Payload = unknown,
-  Meta = unknown
->(
-  actionToHandle: string,
-  reducer: Reducer<State, IActionObject<Payload, Meta>>,
-  initialState: State
-): (state: State, action: IActionObject<Payload, Meta>) => State;
+interface IReducer<State, Payload, Meta> extends Reducer {
+  (state: State, action: IActionObject<Payload, Meta>): State;
+}
 
-export function createSimpleReducer<
+type TCurryInitialState<State, Payload, Meta> = (
+  initialState: State
+) => IReducer<State, Payload, Meta>;
+
+export const createReducer = <
   State = unknown,
   Payload = unknown,
   Meta = unknown
 >(
   actionToHandle: IAction,
-  reducer: Reducer<State, IActionObject<Payload, Meta>>,
+  handler: Reducer<State, IActionObject<Payload, Meta>>,
   initialState: State
-): (state: State, action: IActionObject<Payload, Meta>) => State;
+) => (state = initialState, action: IActionObject<Payload, Meta>): State => {
+  const { type: actionType } = action;
 
-export function createSimpleReducer(actionToHandle, reducer, initialState) {
-  return (state = initialState, action) => {
-    const { type: actionType } = action;
+  if (actionToHandle.toString() !== actionType || !actionType) {
+    return state;
+  }
 
-    if (actionToHandle.toString() !== actionType || !actionType) {
-      return state;
-    }
+  return handler(state, action);
+};
 
-    return reducer(state, action);
-  };
-}
+export const createSimpleReducer = <
+  State = unknown,
+  Payload = unknown,
+  Meta = unknown
+>(
+  actionToHandle: IAction,
+  handler: Reducer<State, IActionObject<Payload, Meta>>,
+  initialState?: State
+): typeof initialState extends unknown
+  ? TCurryInitialState<State, Payload, Meta>
+  : IReducer<State, Payload, Meta> => {
+  return initialState
+    ? createReducer<State, Payload, Meta>(actionToHandle, handler, initialState)
+    : (curriedInitialState: State) =>
+        createReducer<State, Payload, Meta>(
+          actionToHandle,
+          handler,
+          curriedInitialState
+        );
+};
