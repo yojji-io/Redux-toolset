@@ -1,4 +1,4 @@
-import { compose } from './index';
+import { composeReducers } from './index';
 
 import { createAction, IActionObject, IAction } from '../action-creator';
 
@@ -51,7 +51,7 @@ describe('Compose', () => {
   test('Handle simple reducers', () => {
     const rA = createSimpleReducer(actionA, reducerA);
     const rB = createSimpleReducer(actionB, reducerB);
-    const reducer = compose(
+    const reducer = composeReducers(
       initialState,
       rA,
       rB
@@ -70,7 +70,7 @@ describe('Compose', () => {
   test('Handle reducers', () => {
     const r1 = reducerCreator(actionA);
     const r2 = reducerCreator(actionB);
-    const reducer = compose(
+    const reducer = composeReducers(
       initialState,
       r1,
       r2
@@ -91,7 +91,7 @@ describe('Compose', () => {
   test('Handle mixed: simple reducer and reducer', () => {
     const r1 = reducerCreator(actionA);
     const rB = createSimpleReducer(actionB, reducerB);
-    const reducer = compose(
+    const reducer = composeReducers(
       initialState,
       r1,
       rB
@@ -111,7 +111,7 @@ describe('Compose', () => {
   test('Usage without state provided (redux initial action)', () => {
     const r1 = reducerCreator(actionA);
     const rB = createSimpleReducer(actionB, reducerB);
-    const reducer = compose(
+    const reducer = composeReducers(
       initialState,
       r1,
       rB
@@ -123,7 +123,7 @@ describe('Compose', () => {
   test('Usage with different action', () => {
     const r1 = reducerCreator(actionA);
     const rB = createSimpleReducer(actionB, reducerB);
-    const reducer = compose(
+    const reducer = composeReducers(
       initialState,
       r1,
       rB

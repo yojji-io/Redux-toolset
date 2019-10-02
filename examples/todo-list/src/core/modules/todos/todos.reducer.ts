@@ -1,6 +1,6 @@
 import {
     createReducer,
-    compose,
+    composeReducers
 } from '@yojji/core';
 
 import * as actions from './todos.actions';
@@ -46,4 +46,4 @@ const putTodoReducer = createReducer<IInitialState>(actions.makePutTodoCall, s =
     }),
 }));
 
-export default compose<IInitialState>(initialState, getTodosReducer, postTodoReducer, putTodoReducer);
+export default composeReducers<IInitialState>(initialState, getTodosReducer, postTodoReducer, putTodoReducer);
