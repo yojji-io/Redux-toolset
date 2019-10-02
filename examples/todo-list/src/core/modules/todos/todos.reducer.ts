@@ -25,13 +25,13 @@ const getTodosReducer = createReducer<IInitialState>(actions.makeGetTodosCall, s
     [s.DEFAULT]: state => ({ ...state, isLoading: true }),
     [s.SUCCESS]: (state, { payload }) => ({ ...state, list: payload.data, isLoading: false }),
     [s.FAILURE]: state => ({ ...state, isLoading: false }),
-}), initialState);
+}));
 
 const postTodoReducer = createReducer<IInitialState>(actions.makePostTodoCall, s => ({
     [s.DEFAULT]: state => ({ ...state, isLoading: true }),
     [s.SUCCESS]: state => ({ ...state, isLoading: false}),
     [s.FAILURE]: state => ({ ...state, isLoading: false }),
-}), initialState);
+}));
 
 const putTodoReducer = createReducer<IInitialState>(actions.makePutTodoCall, s => ({
     [s.SUCCESS]: (state, { payload: { data: updatedTodo } }) => ({
@@ -44,6 +44,6 @@ const putTodoReducer = createReducer<IInitialState>(actions.makePutTodoCall, s =
             return { ...updatedTodo };
         }),
     }),
-}), initialState);
+}));
 
-export default compose(initialState, getTodosReducer, postTodoReducer, putTodoReducer);
+export default compose<IInitialState>(initialState, getTodosReducer, postTodoReducer, putTodoReducer);

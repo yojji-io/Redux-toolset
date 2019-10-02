@@ -20,6 +20,7 @@ const apiMap = [
 export let workers = {};
 
 export default function * rootSaga() {
+    // @ts-ignore
     const { workers: createWorkers } = yield * createAndRunApiSagas(apiMap);
     workers = createWorkers;
 

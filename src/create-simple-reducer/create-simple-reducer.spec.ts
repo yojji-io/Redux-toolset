@@ -37,6 +37,11 @@ const upReducer = (state: IInitialState, action: IActionObject) => ({
 describe('Simple reducer', () => {
   describe('Handle action without namespace', () => {
     test('Usage with action', () => {
+      const reducer = createSimpleReducer(action, upReducer, initialState);
+      expect(reducer(state, action())).toHaveProperty('a', 6);
+    });
+
+    test('Usage with action and curried reducer', () => {
       const curriedReducer = createSimpleReducer(action, upReducer);
       const reducer = curriedReducer(initialState);
       expect(reducer(state, action())).toHaveProperty('a', 6);

@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 
 import { createSimpleReducer } from '../create-simple-reducer';
 
-import { IAction, IActionObject } from '../action-creator';
+import { IAction } from '../action-creator';
 
 import { TActionsToHandle } from '../constants';
 
@@ -11,17 +11,11 @@ type TReducersWrapper = (
   actions: Record<TActionsToHandle, string>
 ) => Record<string, Reducer>;
 
-type TCreateReducer = <State = any>(
+function generateReducer<State>(
   actionToHandle: IAction,
   reducersWrapper: TReducersWrapper,
   initialState: State
-) => (state: State, action: IActionObject) => State;
-
-export const createReducer: TCreateReducer = (
-  actionToHandle,
-  reducersWrapper,
-  initialState
-) => {
+): Reducer<State> {
   const DEFAULT = actionToHandle.toString();
   const SUCCESS = actionToHandle.success.toString();
   const FAILURE = actionToHandle.failure.toString();
@@ -43,4 +37,37 @@ export const createReducer: TCreateReducer = (
   const reducer = reduceReducers(initialState, ...simpleReducers);
 
   return (state = initialState, action) => reducer(state, action);
-};
+}
+
+export function createReducer<State>(
+  actionToHandle: IAction,
+  reducersWrapper: TReducersWrapper,
+  initialState: State
+): Reducer<State>;
+
+export function createReducer<State>(
+  actionToHandle: IAction,
+  reducersWrapper: TReducersWrapper,
+  initialState?
+): (curriedInitialState: State) => Reducer<State>;
+
+export function createReducer<State>(
+  actionToHandle,
+  reducersWrapper,
+  initialState
+): unknown {
+  if (initialState) {
+    return generateReducer<State>(
+      actionToHandle,
+      reducersWrapper,
+      initialState
+    );
+  } else {
+    return (curriedInitialState: State) =>
+      generateReducer<State>(
+        actionToHandle,
+        reducersWrapper,
+        curriedInitialState
+      );
+  }
+}
