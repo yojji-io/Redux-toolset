@@ -2,20 +2,13 @@ import { Reducer } from 'redux';
 
 import { IAction, IActionObject } from '../action-creator';
 
-interface IReducer<State, Payload, Meta> extends Reducer {
+export interface IReducer<State, Payload = unknown, Meta = unknown>
+  extends Reducer {
   (state: State, action: IActionObject<Payload, Meta>): State;
 }
 
-type TCurryInitialState<State, Payload, Meta> = (
-  initialState: State
-) => IReducer<State, Payload, Meta>;
-
-export const createReducer = <
-  State = unknown,
-  Payload = unknown,
-  Meta = unknown
->(
-  actionToHandle: IAction,
+const createReducer = <State = unknown, Payload = unknown, Meta = unknown>(
+  actionToHandle: IAction | string,
   handler: Reducer<State, IActionObject<Payload, Meta>>,
   initialState: State
 ) => (state = initialState, action: IActionObject<Payload, Meta>): State => {
@@ -28,23 +21,43 @@ export const createReducer = <
   return handler(state, action);
 };
 
-export const createSimpleReducer = <
+export function createSimpleReducer<
   State = unknown,
   Payload = unknown,
   Meta = unknown
 >(
-  actionToHandle: IAction,
+  actionToHandle: IAction | string,
   handler: Reducer<State, IActionObject<Payload, Meta>>,
-  initialState?: State
-): typeof initialState extends unknown
-  ? TCurryInitialState<State, Payload, Meta>
-  : IReducer<State, Payload, Meta> => {
-  return initialState
-    ? createReducer<State, Payload, Meta>(actionToHandle, handler, initialState)
-    : (curriedInitialState: State) =>
-        createReducer<State, Payload, Meta>(
-          actionToHandle,
-          handler,
-          curriedInitialState
-        );
-};
+  initialState: State
+): IReducer<State, Payload, Meta>;
+
+export function createSimpleReducer<
+  State = unknown,
+  Payload = unknown,
+  Meta = unknown
+>(
+  actionTOHandle: IAction | string,
+  handler: Reducer<State, IActionObject<Payload, Meta>>,
+  initialState?
+): (curriedInitialState: State) => IReducer<State, Payload, Meta>;
+
+export function createSimpleReducer<State, Payload, Meta>(
+  actionToHandle,
+  handler,
+  initialState
+): unknown {
+  if (initialState) {
+    return createReducer<State, Payload, Meta>(
+      actionToHandle,
+      handler,
+      initialState
+    );
+  } else {
+    return (curriedInitialState: State): IReducer<State, Payload, Meta> =>
+      createReducer<State, Payload, Meta>(
+        actionToHandle,
+        handler,
+        curriedInitialState
+      );
+  }
+}

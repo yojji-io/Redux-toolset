@@ -87,6 +87,20 @@ describe('Reducer', () => {
       });
     });
 
+    test('Curried reducer', () => {
+      const curriedReducer = createReducer(action, ({ DEFAULT }) => ({
+        [DEFAULT]: (state: IInitialState, action: IActionObject) => ({
+          ...state, default: action.payload
+        })
+      }));
+      const reducer = curriedReducer(initialState);
+
+      expect(reducer(initialState, action(true))).toHaveProperty(
+          'default',
+          true
+      );
+    });
+
     test('Usage without state provided (redux initial action)', () => {
       const reducer = reducerCreator(action);
 

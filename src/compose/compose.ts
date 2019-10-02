@@ -1,15 +1,15 @@
 import reduceReducers from 'reduce-reducers';
-import { Reducer } from 'redux';
 
-import { IActionObject } from '../action-creator';
+import { IReducer } from '../create-simple-reducer';
 
-type TCompose = <State = unknown>(
+export const compose = <State>(
   initialState: State,
-  ...reducers: Reducer[]
-) => (state: State | undefined, action: IActionObject) => State;
-
-export const compose: TCompose = (initialState, ...reducers) => {
-  const reducer = reduceReducers(initialState, ...reducers);
+  ...curriedReducers: Array<(curriedInitialState: State) => IReducer<State>>
+) => {
+  const reducers = curriedReducers.map(curriedReducer =>
+    curriedReducer(initialState)
+  );
+  const reducer = reduceReducers<State>(initialState, ...reducers);
 
   return (state = initialState, action) => reducer(state, action);
 };
