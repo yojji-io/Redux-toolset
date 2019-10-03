@@ -13,5 +13,3 @@ jobs:
     - uses: action/setup-node@v1
     - run: npm install
     - run: npm run check
-    - env:
-        CI: true
