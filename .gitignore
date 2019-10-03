@@ -195,3 +195,5 @@ build
 .DS_Store
 .size-snapshot.json
 stats.html
+
+**/.idea
