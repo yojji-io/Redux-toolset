@@ -29,9 +29,7 @@ Returns `createAction` function with provided namespace.
 
 `@param  {any} actionCreatorOptions.meta?` - Metadata that will be added to each action created from that namespace.
 
-`@param  {(payload: any) => any} actionCreatorOptions.payloadCreator?` - A function that takes payload passed by the argument when creating the action and writes the result of its work to the action payload
-
-```typescript
+```javascript
 
     import { actionNamespaceCreator } from '@yojji/core'
 
@@ -49,17 +47,13 @@ Using with options:
     import { actionNamespaceCreator } from '@yojji/core'
 
     const createAction = actionNamespaceCreator('NAMESPACE', {
-        meta: { provided: true },
-        payloadCreator(payload: string) {
-            return payload + '-modified'
-        }
+        meta: { provided: true }
     })
 
     const action = createAction('TYPE')
 
     // action().type === 'NAMESPACE/TYPE'
     // action().meta.provided === true
-    // action('payload').payload === 'payload-modified'
 
 ```
 
@@ -76,8 +70,6 @@ Returns `IAction` function.
 If `createAction` function was returned by `actionNamespaceCreator`, options provided to `createAction` will override options provided to `actionNamespaceCreator`
 
 `@param  {any} actionCreatorOptions.meta?` - Metadata that will be added to each action created from that action creator.
-
-`@param  {(payload: any) => any} actionCreatorOptions.payloadCreator?` - A function that takes payload passed by the argument when creating the action and writes the result of its work to the action payload
 
 ```javascript
     import { createAction } from '@yojji/core'
@@ -98,15 +90,11 @@ Using with options:
     import { createAction } from '@yojji/core'
 
     const action = createAction('TYPE', {
-        meta: { provided: true },
-        payloadCreator(payload: string) {
-            return payload + '-modified'
-        }
+        meta: { provided: true }
     })
 
     // action().type === 'NAMESPACE/TYPE'
     // action().meta.provided === true
-    // action('payload').payload === 'payload-modified'
 
 ```
 
@@ -117,24 +105,20 @@ Using with `actionNamespaceCreator` options:
     import { actionNamespaceCreator } from '@yojji/core'
 
     const createAction = actionNamespaceCreator('NAMESPACE', {
-        meta: { overridden: false },
-        payloadCreator: () => 'Payload from namespaceCreator'
+        meta: { overridden: false }    
     })
 
     const action = createAction('TYPE', {
-        meta: { overridden: true },
-        payloadCreator: () => 'Payload from createAction'
+        meta: { overridden: true }
     })
 
     // action().type === 'NAMESPACE/TYPE'
     // action().meta.overridden === true
-    // action().payload === 'Payload from createAction'
 
     const anotherAction = createAction('ANOTHER_TYPE')
 
     // anotherAction().type === 'NAMESPACE/ANOTHER_TYPE'
     // anotherAction().meta.overridden === false
-    // anotherAction().payload === 'Payload from namespaceCreator'
 
 ```
 
@@ -232,9 +216,12 @@ Helper to create reducer connected to action with statuses.
 
 ## Compose Reducers
 
-### compose(initialState, ...reducers)
+### composeReducers(initialState, ...reducers)
 
 Helper to compose reducers, provide to them same state and as a result create flat state (not nested like from using `combineReducers`)
+
+*Note:*
+Don't provide initial state to reducers that will be used in `compose`. 
 
 `@param {State} initialState` - Initial state that will be provided to every reducer
 
@@ -244,7 +231,8 @@ Helper to compose reducers, provide to them same state and as a result create fl
 
     import {
         createSimpleReducer,
-        createAction
+        createAction,
+        composeReducers
     } from '@yojji/core'
 
     const initialState = { a: 0, b: 0 }
@@ -252,19 +240,17 @@ Helper to compose reducers, provide to them same state and as a result create fl
     const actionA = createAction('TYPE_A')
     const reducerA = createSimpleReducer(
         actionA,
-        (state) => ({ ...state, a: state.a + 1 }),
-        initialState
+        (state) => ({ ...state, a: state.a + 1 })
     )
 
     const actionB = createAction('TYPE_B')
     const reducerB = createSimpleReducer(
         actionB,
-        (state) => ({ ...state, b: state.b + 1 }),
-        initialState
+        (state) => ({ ...state, b: state.b + 1 })
     )
 
     // Compose reducers to a flat state
-    const reducer = compose(initialState, reducerA, reducerB)
+    const reducer = composeReducers(initialState, reducerA, reducerB)
 
     let state = reducer(initialState, actionA())
     // state.a === 1
