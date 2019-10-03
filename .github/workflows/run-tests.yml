@@ -1,16 +1,17 @@
-name: Node CI
+name: Tests
 
-on: 
+on:
   pull_request:
     types: opened
 
 jobs:
   test:
+    name: Run tests and linter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: action/setup-node@v1
-      - run: npm install
-      - run: npm run check
-      - env:
-          CI: true
+    - uses: actions/checkout@v1
+    - uses: action/setup-node@v1
+    - run: npm install
+    - run: npm run check
+    - env:
+        CI: true
