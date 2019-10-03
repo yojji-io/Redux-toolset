@@ -41,6 +41,12 @@ describe('Simple reducer', () => {
       expect(reducer(state, action())).toHaveProperty('a', 6);
     });
 
+    test('Usage with action and curried reducer', () => {
+      const curriedReducer = createSimpleReducer(action, upReducer);
+      const reducer = curriedReducer(initialState);
+      expect(reducer(state, action())).toHaveProperty('a', 6);
+    });
+
     test('Usage without state provided (redux initial action)', () => {
       const reducer = createSimpleReducer(action, upReducer, initialState);
       expect(reducer(undefined, { type: '@@INIT' })).toEqual(initialState);
