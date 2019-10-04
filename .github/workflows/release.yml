@@ -1,4 +1,4 @@
-name: Node CI
+name: Release to NPM
 
 on:
   push:
@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Make relase to npm
-      - uses: epeli/npm-release@v1
+      - name: Make release to npm
+        uses: epeli/npm-release@v1
         with:
           type: stable
           token: ${{ secrets.NPM_TOKEN_LYKHO }}
