@@ -1,6 +1,6 @@
 {
   "name": "yojji-core-draft",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "build/index.r.min.js",
   "types": "build/index.d.ts",
