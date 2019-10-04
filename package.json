@@ -1,11 +1,11 @@
 {
   "name": "yojji-core-draft",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "build/index.r.min.js",
   "types": "build/index.d.ts",
   "files": [
-    "build/src"
+    "build/"
   ],
   "license": "MIT",
   "keywords": [],
