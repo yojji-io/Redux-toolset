@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - run: npm install
+      - run: npm run build
       - name: Make release to npm
         uses: epeli/npm-release@v1
         with:
           type: stable
           token: ${{ secrets.NPM_TOKEN_LYKHO }}
-    
+
