@@ -1,5 +1,5 @@
 {
-  "name": "@yojji/core",
+  "name": "yojji-core-draft",
   "version": "0.0.0",
   "description": "",
   "main": "build/index.r.min.js",
