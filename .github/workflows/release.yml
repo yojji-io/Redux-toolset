@@ -16,5 +16,5 @@ jobs:
         uses: epeli/npm-release@v1
         with:
           type: stable
-          token: ${{ secrets.NPM_TOKEN_LYKHO }}
+          token: ${{ secrets.NPM_TOKEN_KLYKHO }}
 
