@@ -1,6 +1,5 @@
 import * as redux from 'redux';
 import * as devtools from 'redux-devtools-extension/developmentOnly';
-import createSagaMiddleware from 'redux-saga';
 
 import { createStore } from './index';
 
