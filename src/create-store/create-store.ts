@@ -13,7 +13,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import isPlainObject from 'lodash.isplainobject';
 
-interface ICreateSTore {
+interface ICreateStore {
   reducer: Reducer | ReducersMapObject;
   middleware?: Middleware[];
   preloadedState?: any;
@@ -28,7 +28,7 @@ const getRootReducer = (reducer: Reducer | ReducersMapObject): Reducer => {
   }
 };
 
-export const createStore = (options: ICreateSTore): Store => {
+export const createStore = (options: ICreateStore): Store => {
   if (!options) {
     throw new Error('No options provided');
   }

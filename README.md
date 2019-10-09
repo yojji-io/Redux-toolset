@@ -5,15 +5,17 @@
     - [actionNamespaceCreator(namespace, options?) => createAction](#actionnamespacecreatornamespace-options--createaction)
     - [createAction(type, options?) => IAction](#createactiontype-options--iaction)
   - [Simple Reducer Creator](#simple-reducer-creator)
-    - [createSimpleReducer(action, reducer, initialState)](#createsimplereduceraction-reducer-initialstate)
+    - [createSimpleReducer(action, reducer, initialState?)](#createsimplereduceraction-reducer-initialstate)
   - [Reducer Creator](#reducer-creator)
-    - [createReducer(action, reducersWrapper, initialState)](#createreduceraction-reducerswrapper-initialstate)
+    - [createReducer(action, reducersWrapper, initialState?)](#createreduceraction-reducerswrapper-initialstate)
   - [Compose Reducers](#compose-reducers)
-    - [compose(initialState, ...reducers)](#composeinitialstate-reducers)
+    - [composeReducers(initialState, ...reducers)](#composereducersinitialstate-reducers)
   - [Redux Saga Helpers](#redux-saga-helpers)
     - [createWorker({ api, action })](#createworker-api-action)
     - [createWatcher({ api, action })](#createwatcher-api-action)
     - [createAndRunApiSagas(apiList) => { workers: SagaIterator[] }](#createandrunapisagasapilist---workers-sagaiterator)
+  - [Redux Store](#redux-store)
+    - [createStore(options)](#createstoreoptions)
 
 ## Action Creator
 
@@ -124,7 +126,7 @@ Using with `actionNamespaceCreator` options:
 
 ## Simple Reducer Creator
 
-### createSimpleReducer(action, reducer, initialState)
+### createSimpleReducer(action, reducer, initialState?)
 
 Helper to create reducer connected to one action.
 
@@ -161,7 +163,7 @@ Helper to create reducer connected to one action.
 
 ## Reducer Creator
 
-### createReducer(action, reducersWrapper, initialState)
+### createReducer(action, reducersWrapper, initialState?)
 
 Helper to create reducer connected to action with statuses.
 
@@ -327,6 +329,7 @@ Returns workers (SagaIterator).
 `@param {IApi[]} apiList` - Array of `IApi` objects
 
 ```javascript
+
     import {
         createAndRunApiSagas
     } from '@yojji/core'
@@ -344,4 +347,44 @@ Returns workers (SagaIterator).
 
         yield put(actions.someAction)
     }
+
+```
+
+## Redux Store
+
+### createStore(options)
+
+Returns configured Redux store with dev tools included. 
+
+
+`@param {ICreateStore} options`
+
+`@param {Reducer | ReducersMapObject} reducer` - Function or object that will be passed to `combineReducers`
+
+`@param {Middleware[]} middleware?` - List of Redux middleware
+
+`@param {any} preloadedState?` - Initial Redux state
+
+`@param {StoreEnhancer[]} enhancers?` - List of Redux enhancers
+
+
+```javascript
+
+    import { createStore } from '@yojji/core';
+    import createSagaMiddleware from 'redux-saga';
+    
+    import rootSaga from './root-saga';
+    import rootReducer from './root-reducer';
+    
+    const sagaMiddleware = createSagaMiddleware();
+    
+    const store = createStore({
+        reducer: rootReducer,
+        middleware: [sagaMiddleware],
+    });
+    
+    sagaMiddleware.run(rootSaga);
+    
+    export default store;
+
 ```
