@@ -91,7 +91,7 @@ export const createAction = <
       type: actionType,
     };
 
-    if (actionPayload) {
+    if (typeof actionPayload === 'boolean' || actionPayload) {
       action.payload = actionPayload;
     }
 
